@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>动画|我的电影收藏夹</title>
+<style>
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body {
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI", "Microsoft YaHei", "PingFang SC", sans-serif;
+    background: #0f1115;
+    color: #e6e6e6;
+    line-height: 1.6;
+  }
+
+  /* 导航 */
+  nav {
+    position: sticky; top: 0; z-index: 50;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 12px 28px;
+    background: rgba(15,17,21,.85);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid rgba(255,255,255,.06);
+  }
+  nav .brand { font-weight: 800; color: #ff5c8a; letter-spacing: 1px; }
+  nav ul { list-style: none; display: flex; gap: 20px; }
+  nav a { color: #cfcfcf; text-decoration: none; font-size: 14px; }
+  nav a:hover { color: #ff5c8a; }
+  .nav-right { display: flex; align-items: center; gap: 12px; }
+  .search {
+    background: #1c1f26; border: 1px solid #2a2d35; color: #eee;
+    padding: 6px 12px; border-radius: 8px; font-size: 13px;
+  }
+  .icon-btn {
+    width: 34px; height: 34px; border-radius: 8px; border: 1px solid #2a2d35;
+    background: #1c1f26; color: #eee; cursor: pointer; font-size: 16px;
+  }
+
+  /* 横幅 */
+  .banner {
+  position: relative;
+  height: 220px;
+  background: linear-gradient(180deg, rgba(13,17,23,0) 0%, #0d1117 100%), #11161d;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  border-bottom: 1px solid #1f262e;
+}
+.banner h1 {
+  font-size: 26px;
+  letter-spacing: 3px;
+  color: #f3f4f6;
+  font-weight: 600;
+  margin: 0;
+}
+.banner p {
+  margin-top: 8px;
+  color: #9aa3ad;
+  font-size: 14px;
+}
+.banner::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(to bottom, transparent 65%, #0d1117);
+  pointer-events: none;
+}
+
+  /* 布局 */
+  .wrap {
+    max-width: 1180px; margin: 24px auto; padding: 0 20px;
+    display: grid; grid-template-columns: 250px 1fr 250px; gap: 20px;
+  }
+  .card {
+  background: #131820;
+  border: 1px solid #1d242c;
+  border-radius: 10px;
+  padding: 18px;
+  box-shadow: 0 1px 0 rgba(255,255,255,.02), 0 8px 24px rgba(0,0,0,.18);
+}
+
+  /* 左侧资料 */
+  .profile { text-align: center; }
+  .avatar {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 1px solid #2a313a;
+  box-shadow: 0 1px 0 rgba(255,255,255,.04), 0 6px 18px rgba(0,0,0,.25);
+  margin-bottom: 12px;
+  background: #1a1d23;
+  display: block;
+
+  .profile h3 { color: #ff5c8a; margin-bottom: 6px; }
+  .profile p { font-size: 13px; color: #aab; }
+  .tags { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; margin-top: 12px; }
+  .tags span {
+  display: inline-block;
+  padding: 4px 10px;
+  margin: 4px 6px 0 0;
+  font-size: 12px;
+  color: #b9c0c8;
+  background: #1a2129;
+  border: 1px solid #252d36;
+  border-radius: 999px;
+}
+
+  /* 电影卡片 */
+  .movie {
+    display: flex; gap: 16px; background: #161922; border: 1px solid #232734;
+    border-radius: 14px; padding: 14px; margin-bottom: 16px;
+    transition: transform .2s, box-shadow .2s;
+  }
+  .movie:hover { transform: translateY(-3px); box-shadow: 0 10px 30px rgba(255,92,138,.18); }
+  .movie img {
+    width: 150px; height: 215px; object-fit: cover; border-radius: 10px;
+    flex-shrink: 0; background: #222;
+  }
+  .movie h3 { color: #ff5c8a; margin-bottom: 6px; font-size: 18px; }
+  .movie p { font-size: 14px; color: #d0d0da; margin: 3px 0; }
+  .rating { color: #ffd166; }
+  .meta { font-size: 12px; color: #9aa; margin-top: 6px; }
+  .movie .tags { justify-content: flex-start; margin-top: 8px; }
+
+  /* 右侧 */
+  .right h4 { color: #ff5c8a; margin-bottom: 10px; font-size: 15px; }
+  .right ul { list-style: none; }
+  .right li { font-size: 13px; color: #c5c5d0; padding: 6px 0; border-bottom: 1px dashed #232734; }
+  .stat div { display: flex; justify-content: space-between; font-size: 13px; color: #c5c5d0; padding: 6px 0; border-bottom: 1px dashed #232734; }
+
+  footer { text-align: center; padding: 24px; color: #666; font-size: 12px; }
+
+  @media (max-width: 960px){
+    .wrap { grid-template-columns: 1fr; }
+    .movie { flex-direction: column; align-items: center; text-align: center; }
+    .movie img { width: 180px; height: 255px; }
+    .movie .tags, .meta { justify-content: center; }
+  }
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="brand">🎬 我的电影收藏夹</div>
+  <ul>
+    <li><a href="#">首页</a></li>
+    <li><a href="#">电影</a></li>
+    <li><a href="#">分类</a></li>
+    <li><a href="#">关于</a></li>
+  </ul>
+  <div class="nav-right">
+    <input class="search" placeholder="搜索电影">
+    <button class="icon-btn" title="切换主题">🌙</button>
+  </div>
+</nav>
+
+<header class="banner">
+  <div>
+    <h1>动画电影</h1>
+<p>画面、节奏、童年感，或者单纯很美。</p>
+  </div>
+</header>
+
+<div class="wrap">
+
+  <!-- 左 -->
+  <aside class="card profile">
+    <img class="avatar" src="images/avatar.jpg" alt="头像">
+   
+   <h3>影迷小站</h3>
+    <p>记录喜欢的电影、导演与瞬间，持续更新中。</p>
+    <div class="tags">
+      <span>科幻</span><span>动画</span><span>剧情</span><span>经典</span>
+    </div>
+    <div class="module-title">公告</div>
+    <p style="font-size:12px;color:#99a;">欢迎来到我的电影小站，不定期更新片单~</p>
+  </aside>
+
+  <!-- 中 -->
+  <main>
+
+    <div class="movie">
+      <img src="images/499b85ae1f134965392965b8e58dfcaf.jpeg" alt="星际穿越">
+      <div>
+        <h3>星际穿越 (Interstellar)</h3>
+        <p><strong>导演：</strong>克里斯托弗·诺兰</p>
+        <p><strong>年份：</strong>2014</p>
+        <p>一群探险家利用新发现的虫洞，超越人类太空旅行的极限，在广袤宇宙中进行星际航行的故事。</p>
+        <p class="rating">★★★★★ 9.4/10</p>
+        <div class="tags"><span>科幻</span><span>太空</span><span>亲情</span></div>
+      </div>
+    </div>
+
+    <div class="movie">
+      <img src="images/08a01f8287626855b5cf17904b0fd8b.jpeg" alt="千与千寻">
+      <div>
+  
+
+  </main>
+
+  <!-- 右 -->
+  <aside class="card right">
+    <h4>最近添加</h4>
+    <ul>
+      <li>星际穿越</li>
+    
+    </ul>
+    <h4 style="margin-top:18px;">站点统计</h4>
+    <div class="stat">
+      <div><span>电影</span><b>3</b></div>
+      <div><span>分类</span><b>4</b></div>
+      <div><span>最高评分</span><b>9.7</b></div>
+    </div>
+    <h4 style="margin-top:18px;">站点信息</h4>
+    <div class="stat">
+      <div><span>主题</span><b>Movie Card</b></div>
+      <div><span>框架</span><b>纯 HTML/CSS</b></div>
+    </div>
+  </aside>
+
+</div>
+
+<footer>© 我的电影收藏夹 · Powered by GitHub Pages</footer>
+
+</body>
+</html>
