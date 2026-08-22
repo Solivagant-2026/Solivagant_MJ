@@ -11,7 +11,24 @@
     background: #0f1115;
     color: #e6e6e6;
     line-height: 1.6;
+.layout {
+  max-width: 1180px;
+  margin: 24px auto;
+  padding: 0 20px;
+  display: grid;
+  grid-template-columns: 250px 1fr 250px;
+  gap: 20px;
+}
+
+@media (max-width: 960px) {
+  .layout {
+    grid-template-columns: 1fr;
   }
+}
+
+body {
+  overflow-x: hidden;
+}  }
 
   /* 导航 */
   nav {
@@ -36,8 +53,9 @@
     <li><a href="about.html">关于</a></li>
   </ul>
 </nav>
-
-  /* 横幅 */
+<div class="layout">
+  /* 横幅 */ 
+ <div class="layout">
   .banner {
   position: relative;
   height: 220px;
@@ -242,5 +260,7 @@
 
 <footer>© 我的电影收藏夹 · Powered by GitHub Pages</footer>
 
+ </div>
+ </div>
 </body>
 </html>
