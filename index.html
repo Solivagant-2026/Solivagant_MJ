@@ -157,6 +157,57 @@ body {
     .movie img { width: 180px; height: 255px; }
     .movie .tags, .meta { justify-content: center; }
   }
+  .banner {
+  grid-column: 1 / -1;
+  min-height: 160px;
+  border-radius: 12px;
+  background: linear-gradient(180deg, #11161d 0%, #0d1117 100%);
+  border: 1px solid #1f262e;
+  padding: 28px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+}
+
+.banner h1 {
+  font-size: 26px;
+  color: #f3f4f6;
+  margin: 0 0 8px;
+}
+
+.banner p {
+  color: #9aa3ad;
+  font-size: 14px;
+  margin: 0;
+}
+
+main {
+  display: grid;
+  gap: 18px;
+  grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+}
+
+main .movie {
+  background: #11161d;
+  border: 1px solid #1f262e;
+  border-radius: 12px;
+  padding: 12px;
+}
+
+main img {
+  width: 100%;
+  border-radius: 10px;
+  display: block;
+}
+
+.card {
+  background: #11161d;
+  border: 1px solid #1f262e;
+  border-radius: 12px;
+  padding: 16px;
+} 
 </style>
 </head>
 <body>
@@ -174,8 +225,10 @@ body {
 
 <header class="banner">
   <div>
-    <h1>我的电影收藏夹</h1>
-    <p>科幻 · 动画 · 剧情 · 成长 · 宇宙与希望</p>
+    <div class="banner">
+  <h1>我的电影收藏夹</h1>
+  <p>科幻 · 动画 · 剧情 · 成长 · 宇宙与希望</p>
+</div>
   </div>
 </header>
 
